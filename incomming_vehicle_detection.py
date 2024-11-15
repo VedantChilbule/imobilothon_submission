@@ -1,9 +1,9 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture("D:/project -images/cars.avi")
+cap = cv2.VideoCapture("footage_path_here")
 
-car_classifier = cv2.CascadeClassifier("D:/Haarcascades/haarcascade_car.xml")
+car_classifier = cv2.CascadeClassifier("path_here")
 
 while cap.isOpened():
     ret, frame = cap.read()
