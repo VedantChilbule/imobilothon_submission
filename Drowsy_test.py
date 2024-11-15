@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 from collections import deque
 import time
 
-# Load the pre-trained drowsiness detection model
-model = load_model("D:/ML_model/New_Drowsy_model.keras")
+model = load_model("path_here")
 
 # Define class names
 class_names = ['DROWSY', 'NATURAL']
@@ -19,12 +18,12 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 cap = cv2.VideoCapture(0)  # 0 is usually the default camera, adjust if necessary
 
 # Set up the plot for real-time visualization
-plt.ion()  # Interactive mode on
+plt.ion() 
 fig, ax = plt.subplots()
-x_data = deque(maxlen=100)  # Store up to 100 time points
-y_data = deque(maxlen=100)  # Store up to 100 prediction results
+x_data = deque(maxlen=100) 
+y_data = deque(maxlen=100) 
 line, = ax.plot([], [], lw=2)
-ax.set_ylim(-0.1, 1.1)  # Adjust based on your prediction output
+ax.set_ylim(-0.1, 1.1) 
 ax.set_xlabel('Time (seconds)')
 ax.set_ylabel('Prediction Probability')
 ax.set_title('Drowsiness Detection Over Time')
@@ -37,7 +36,7 @@ while True:
     if not ret:
         break
 
-    # Convert frame to grayscale for face detection
+    # Convert frame to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Detect faces in the frame
@@ -55,17 +54,17 @@ while True:
 
         # Convert the face region to a format suitable for prediction
         img_array = image.img_to_array(img)
-        img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+        img_array = np.expand_dims(img_array, axis=0)  
         img_array = img_array / 255.0  # Normalize if needed
 
         # Make a prediction
         predictions = model.predict(img_array)
-        predicted_probabilities = predictions[0]  # Extract probabilities for the classes
+        predicted_probabilities = predictions[0] 
 
         # Update plot data
         elapsed_time = time.time() - start_time
         x_data.append(elapsed_time)
-        y_data.append(predicted_probabilities[np.argmax(predicted_probabilities)])  # Append the probability of the predicted class
+        y_data.append(predicted_probabilities[np.argmax(predicted_probabilities)]) 
 
         # Update the graph
         line.set_xdata(x_data)
